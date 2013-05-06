@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements hook_views_plugins
+ * Implements hook_views_plugins().
  */
 function views_merge_rows_views_plugins() {
   $path = drupal_get_path('module', 'views_merge_rows');

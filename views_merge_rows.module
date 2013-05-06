@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function views_merge_rows_views_api() {
   return array(
@@ -26,7 +26,7 @@ function views_merge_rows_theme() {
 }
 
 /**
- * Theme the form for the merge rows plugin
+ * Theme the form for the merge rows plugin.
  */
 function theme_views_merge_rows_display_extender_plugin_table($variables) {
   $form = $variables['form'];
@@ -43,8 +43,6 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
     $row[] = check_plain(drupal_render($form['field_config'][$id]['name']));
     $row[] = drupal_render($form['field_config'][$id]['merge_option']);
     $row[] = drupal_render($form['field_config'][$id]['separator']);
-
-
     $rows[] = $row;
   }
 
@@ -66,7 +64,7 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
 
 
 /**
- * Implement hook_views_pre_render().
+ * Implements hook_views_pre_render().
  *
  * Merges the rows according to the settings for current display.
  */
@@ -103,5 +101,3 @@ function views_merge_rows_views_pre_render(&$view) {
     }
   }
 }
-
-
