@@ -1,0 +1,107 @@
+<?php
+/**
+ * @file
+ * Registers View API information
+ */
+
+/**
+ * Implementation of hook_views_api().
+ */
+function views_merge_rows_views_api() {
+  return array(
+    'api' => 3,
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function views_merge_rows_theme() {
+  $theme_info = array(
+    'views_merge_rows_display_extender_plugin_table' => array(
+      'render element' => 'form',
+    ),
+  );
+  return $theme_info;
+}
+
+/**
+ * Theme the form for the merge rows plugin
+ */
+function theme_views_merge_rows_display_extender_plugin_table($variables) {
+  $form = $variables['form'];
+  $output = '';
+
+  $header = array(
+    t('Field'),
+    t('Merge option'),
+    t('Separator'),
+  );
+  $rows = array();
+  foreach (element_children($form['field_config']) as $id) {
+    $row = array();
+    $row[] = check_plain(drupal_render($form['field_config'][$id]['name']));
+    $row[] = drupal_render($form['field_config'][$id]['merge_option']);
+    $row[] = drupal_render($form['field_config'][$id]['separator']);
+
+
+    $rows[] = $row;
+  }
+
+  $table = theme('table', array('header' => $header, 'rows' => $rows));
+
+  $form['table_fieldset'] = array(
+    '#title' => t('Configure merging options for the fields'),
+    '#type' => 'fieldset',
+    '#dependency' => array('edit-options-merge-rows' => array(1)),
+  );
+
+  $form['table_fieldset']['table'] = array(
+    '#type' => 'markup',
+    '#markup' => $table,
+  );
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+
+/**
+ * Implement hook_views_pre_render().
+ *
+ * Merges the rows according to the settings for current display.
+ */
+function views_merge_rows_views_pre_render(&$view) {
+  $options = $view->display_handler->extender['views_merge_rows']->get_options();
+  if (!$options['merge_rows']) {
+    return;
+  }
+  $rendered_fields = $view->style_plugin->render_fields($view->result);
+  $filters = array();
+  foreach ($rendered_fields as $row_index => $row) {
+    $filter_value = '';
+    foreach ($options['field_config'] as $field_name => $field_config) {
+      if ($field_config['merge_option'] == 'filter') {
+        $filter_value .= $row[$field_name];
+      }
+    }
+    if (array_key_exists($filter_value, $filters)) {
+      $merge_row_index = $filters[$filter_value];
+      foreach ($options['field_config'] as $field_name => $field_config) {
+        if ($field_config['merge_option'] == 'merge') {
+          $view->style_plugin->rendered_fields[$merge_row_index][$field_name] .= $field_config['separator'] . $view->style_plugin->rendered_fields[$row_index][$field_name];
+        }
+      }
+      unset($view->style_plugin->row_tokens[$row_index]);
+      unset($view->style_plugin->render_tokens[$row_index]);
+      unset($view->style_plugin->rendered_fields[$row_index]);
+      unset($view->result[$row_index]);
+      --$view->total_rows;
+
+    }
+    else {
+      $filters[$filter_value] = $row_index;
+    }
+  }
+}
+
+
