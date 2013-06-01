@@ -82,7 +82,7 @@ function views_merge_rows_views_pre_render(&$view) {
   // merge_unique - array of unique values from all merged rows
   // merge - array of values from all merger rows
   // filter - the value from the first merged rows (all values from the merged
-  //  rows are the same)
+  // rows are the same)
   // first_value - the value from the first merged rows
   // count_unique - array of unique values from all merged rows
   // count - the number of merged rows.
@@ -129,15 +129,18 @@ function views_merge_rows_views_pre_render(&$view) {
               $merged_row[$field_name][] = $rendered_row[$field_name];
             }
             break;
+          
           case 'merge':
             $merged_row[$field_name][] = $rendered_row[$field_name];
             break;
+
           case 'count':
             $merged_row[$field_name] = $merged_row[$field_name] + 1;
             break;
+
           case 'filter':
           case 'first_value':
-            // do nothing - we already have a value from the first merged row
+            // Do nothing - we already have a value from the first merged row.
             break;
         }
       }
@@ -150,28 +153,29 @@ function views_merge_rows_views_pre_render(&$view) {
     }
   }
 
-  // Store the merged rows back to the view's style plugin
+  // Store the merged rows back to the view's style plugin.
   foreach ($merged_rows as $row_index => $merged_row) {
     foreach ($options['field_config'] as $field_name => $field_config) {
       switch ($field_config['merge_option']) {
         case 'merge':
         case 'merge_unique':
-          $view->style_plugin->rendered_fields[$row_index][$field_name] =
-            implode($field_config['separator'], $merged_row[$field_name]);
+          $view->style_plugin->rendered_fields[$row_index][$field_name]
+            = implode($field_config['separator'], $merged_row[$field_name]);
           break;
+
         case 'count_unique':
-          $view->style_plugin->rendered_fields[$row_index][$field_name] =
-            count($merged_row[$field_name]);
+          $view->style_plugin->rendered_fields[$row_index][$field_name]
+            = count($merged_row[$field_name]);
           break;
+
         case 'count':
         case 'filter':
         case 'first_value':
-          $view->style_plugin->rendered_fields[$row_index][$field_name] =
-            $merged_row[$field_name];
+          $view->style_plugin->rendered_fields[$row_index][$field_name]
+            = $merged_row[$field_name];
           break;
       }
     }
   }
-
 
 }
