@@ -129,7 +129,7 @@ function views_merge_rows_views_pre_render(&$view) {
               $merged_row[$field_name][] = $rendered_row[$field_name];
             }
             break;
-          
+
           case 'merge':
             $merged_row[$field_name][] = $rendered_row[$field_name];
             break;
