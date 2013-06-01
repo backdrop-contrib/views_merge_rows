@@ -79,13 +79,13 @@ function views_merge_rows_views_pre_render(&$view) {
   // Array, where each element corresponds to the row after removing the merged
   // rows. This element is an array of fields (field_name is used as a key).
   // The values of this field depends on the merge_option as follows:
-  //  merge_unique - array of unique values from all merged rows
-  //  merge - array of values from all merger rows
-  //  filter - the value from the first merged rows (all values from the merged
-  //    rows are the same)
-  //  first_value - the value from the first merged rows
-  //  count_unique - array of unique values from all merged rows
-  //  count - the number of merged rows.
+  // merge_unique - array of unique values from all merged rows
+  // merge - array of values from all merger rows
+  // filter - the value from the first merged rows (all values from the merged
+  //  rows are the same)
+  // first_value - the value from the first merged rows
+  // count_unique - array of unique values from all merged rows
+  // count - the number of merged rows.
   $merged_rows = array();
   foreach ($rendered_fields as $row_index => $rendered_row) {
     $filter_value = '';
@@ -104,13 +104,16 @@ function views_merge_rows_views_pre_render(&$view) {
           case 'merge':
             $merged_row[$field_name] = array($rendered_row[$field_name]);
             break;
+
           case 'count':
             $merged_row[$field_name] = 1;
             break;
+
           case 'filter':
           case 'first_value':
             $merged_row[$field_name] = $rendered_row[$field_name];
             break;
+
         }
       }
       $merged_rows[$row_index] = $merged_row;
