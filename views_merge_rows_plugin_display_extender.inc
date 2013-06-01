@@ -45,7 +45,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
         }
         else {
           $options['field_config'][$field] = array(
-            'merge_option' => 'merge',
+            'merge_option' => 'merge_unique',
             'separator' => ', ',
           );
         }
@@ -93,22 +93,25 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
       $form['field_config'][$field]['merge_option'] = array(
         '#type' => 'select',
         '#options' => array(
+          'merge_unique' => t('Merge unique values of this field'),
           'merge' => t('Merge values of this field'),
           'filter' => t('Use values of this field as a filter'),
           'first_value' => t('Use the first value of this field'),
+          'count' => t('Count merged values of this field'),
+          'count_unique' => t('Count merged unique values of this field'),
         ),
         '#default_value' => $options['field_config'][$field]['merge_option'],
       );
 
       $form['field_config'][$field]['separator'] = array(
+        '#title' => 'Separator:',
+//        '#title_display' => 'after',
         '#type' => 'textfield',
         '#size' => 10,
         '#default_value' => $options['field_config'][$field]['separator'],
-        '#dependency' => array('edit-options-field-config-' . $safe . '-merge-option' => array('merge')),
+        '#dependency' => array('edit-options-field-config-' . $safe . '-merge-option' => array('merge', 'merge_unique')),
       );
-
     }
-
   }
 
   /**
