@@ -3,5 +3,5 @@ description = Adds possibility to merge rows with the same values in the specifi
 package = "Views"
 core = 7.x
 
-dependencies[] = views_ui
+dependencies[] = views
 files[] = views_merge_rows_plugin_display_extender.inc
