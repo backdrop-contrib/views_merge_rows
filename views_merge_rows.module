@@ -49,6 +49,7 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
   $table = theme('table', array('header' => $header, 'rows' => $rows));
 
   $form['table_fieldset'] = array(
+    '#id' => 'views-merge-rows-table-fieldset',
     '#title' => t('Configure merging options for the fields'),
     '#type' => 'fieldset',
     '#dependency' => array('edit-options-merge-rows' => array(1)),
