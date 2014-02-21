@@ -126,7 +126,7 @@ function views_merge_rows_views_pre_render(&$view) {
         switch ($field_config['merge_option']) {
           case 'merge_unique':
           case 'count_unique':
-            if (!in_array($rendered_row[$field_name], $merged_row[$field_name])) {
+            if (!empty($rendered_row[$field_name]) && !in_array($rendered_row[$field_name], $merged_row[$field_name])) {
               $merged_row[$field_name][] = $rendered_row[$field_name];
             }
             break;
