@@ -13,7 +13,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide a list of options for this plugin.
    */
-  public function options_definition_alter($options) {
+  public function options_definition_alter(&$options) {
     $options['merge_rows'] = array(
       'default' => FALSE,
       'bool' => TRUE,
@@ -132,7 +132,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide the form to set the rows merge options.
    */
-  public function options_form($form, $form_state) {
+  public function options_form(&$form, &$form_state) {
     switch ($form_state['section']) {
       case 'views_merge_rows':
         $this->views_merge_rows_options_form($form, $form_state);
@@ -143,7 +143,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Saves the row merge options.
    */
-  public function options_submit($form, $form_state) {
+  public function options_submit(&$form, &$form_state) {
     switch ($form_state['section']) {
       case 'views_merge_rows':
         $this->views_merge_rows_options_form_submit($form, $form_state);
