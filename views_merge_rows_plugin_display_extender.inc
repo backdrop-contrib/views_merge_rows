@@ -65,7 +65,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide a form to edit options for this plugin.
    */
-  protected function views_merge_rows_options_form($form, $form_state) {
+  protected function views_merge_rows_options_form(&$form, &$form_state) {
     $options = $this->get_options();
 
     if ($this->display->display->handler->use_pager()) {
@@ -123,7 +123,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Saves the row merge options.
    */
-  protected function views_merge_rows_options_form_submit($form, $form_state) {
+  protected function views_merge_rows_options_form_submit(&$form, &$form_state) {
     foreach ($form_state['values']['options'] as $option => $value) {
       $this->display->set_option($option, $value);
     }
@@ -149,7 +149,6 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
         $this->views_merge_rows_options_form_submit($form, $form_state);
         break;
     }
-
   }
 
   /**
@@ -161,7 +160,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
       $options['views_merge_rows'] = array(
         'category' => 'other',
         'title' => t('Merge rows'),
-        'value' => $configuration['merge_rows']?t('Settings') : t('No'),
+        'value' => $configuration['merge_rows'] ? t('Settings') : t('No'),
         'desc' => t('Allow merging rows with the same content in the specified fields.'),
       );
     }
