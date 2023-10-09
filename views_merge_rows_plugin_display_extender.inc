@@ -155,7 +155,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide the default summary for options in the views UI.
    */
-  public function options_summary($categories, $options) {
+  public function options_summary(&$categories, &$options) {
     if ($this->display->display->handler->uses_fields()) {
       $configuration = $this->get_options();
       $options['views_merge_rows'] = array(

@@ -69,7 +69,7 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
  *
  * Merges the rows according to the settings for current display.
  */
-function views_merge_rows_views_pre_render($view) {
+function views_merge_rows_views_pre_render(&$view) {
   $options = $view->display_handler->extender['views_merge_rows']->get_options();
   if (!$options['merge_rows']) {
     return;
