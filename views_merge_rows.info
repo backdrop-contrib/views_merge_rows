@@ -1,7 +1,7 @@
 name = Views Merge Rows
 description = Adds possibility to merge rows with the same values in the specified fields.
 package = "Views"
-core = 7.x
+backdrop = 1.x
+type = module
 
 dependencies[] = views
-files[] = views_merge_rows_plugin_display_extender.inc

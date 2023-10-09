@@ -8,7 +8,7 @@
  * Implements hook_views_plugins().
  */
 function views_merge_rows_views_plugins() {
-  $path = drupal_get_path('module', 'views_merge_rows');
+  $path = backdrop_get_path('module', 'views_merge_rows');
   $plugins = array();
   $plugins['display_extender']['views_merge_rows'] = array(
     'title' => t('Merge rows'),

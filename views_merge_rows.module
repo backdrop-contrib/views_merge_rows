@@ -40,9 +40,9 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
   $rows = array();
   foreach (element_children($form['field_config']) as $id) {
     $row = array();
-    $row[] = check_plain(drupal_render($form['field_config'][$id]['name']));
-    $row[] = drupal_render($form['field_config'][$id]['merge_option']);
-    $row[] = drupal_render($form['field_config'][$id]['separator']);
+    $row[] = check_plain(backdrop_render($form['field_config'][$id]['name']));
+    $row[] = backdrop_render($form['field_config'][$id]['merge_option']);
+    $row[] = backdrop_render($form['field_config'][$id]['separator']);
     $rows[] = $row;
   }
 
@@ -59,7 +59,7 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
     '#type' => 'markup',
     '#markup' => $table,
   );
-  $output .= drupal_render_children($form);
+  $output .= backdrop_render_children($form);
   return $output;
 }
 
@@ -69,7 +69,7 @@ function theme_views_merge_rows_display_extender_plugin_table($variables) {
  *
  * Merges the rows according to the settings for current display.
  */
-function views_merge_rows_views_pre_render(&$view) {
+function views_merge_rows_views_pre_render($view) {
   $options = $view->display_handler->extender['views_merge_rows']->get_options();
   if (!$options['merge_rows']) {
     return;
@@ -78,15 +78,35 @@ function views_merge_rows_views_pre_render(&$view) {
   $filters = array();
 
   // Array, where each element corresponds to the row after removing the merged
+
+
   // rows. This element is an array of fields (field_name is used as a key).
+
+
   // The values of this field depends on the merge_option as follows:
+
+
   // merge_unique - array of unique values from all merged rows
+
+
   // merge - array of values from all merger rows
+
+
   // filter - the value from the first merged rows (all values from the merged
+
+
   // rows are the same)
+
+
   // first_value - the value from the first merged rows
+
+
   // count_unique - array of unique values from all merged rows
+
+
   // count - the number of merged rows.
+
+
   $merged_rows = array();
   foreach ($rendered_fields as $row_index => $rendered_row) {
     $filter_value = '';
@@ -142,6 +162,8 @@ function views_merge_rows_views_pre_render(&$view) {
           case 'filter':
           case 'first_value':
             // Do nothing - we already have a value from the first merged row.
+
+
             break;
         }
       }
@@ -155,6 +177,8 @@ function views_merge_rows_views_pre_render(&$view) {
   }
 
   // Store the merged rows back to the view's style plugin.
+
+
   foreach ($merged_rows as $row_index => $merged_row) {
     foreach ($options['field_config'] as $field_name => $field_config) {
       switch ($field_config['merge_option']) {
@@ -179,4 +203,13 @@ function views_merge_rows_views_pre_render(&$view) {
     }
   }
 
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function views_merge_rows_autoload_info() {
+  return array(
+    'views_merge_rows_plugin_display_extender' => 'views_merge_rows_plugin_display_extender.inc',
+  );
 }

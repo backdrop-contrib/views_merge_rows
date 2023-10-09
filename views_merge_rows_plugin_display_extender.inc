@@ -13,8 +13,11 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide a list of options for this plugin.
    */
-  public function options_definition_alter(&$options) {
-    $options['merge_rows'] = array('default' => FALSE, 'bool' => TRUE);
+  public function options_definition_alter($options) {
+    $options['merge_rows'] = array(
+      'default' => FALSE,
+      'bool' => TRUE,
+    );
     $options['field_config'] = array('default' => array());
   }
 
@@ -62,7 +65,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide a form to edit options for this plugin.
    */
-  protected function views_merge_rows_options_form(&$form, &$form_state) {
+  protected function views_merge_rows_options_form($form, $form_state) {
     $options = $this->get_options();
 
     if ($this->display->display->handler->use_pager()) {
@@ -80,16 +83,19 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
       '#default_value' => $options['merge_rows'],
     );
     // Create an array of allowed columns from the data we know:
+
     $field_names = $this->display->display->handler->get_field_labels();
 
     foreach ($field_names as $field => $name) {
       $safe = str_replace(array('][', '_', ' '), '-', $field);
       // Markup for the field name.
+
       $form['field_config'][$field]['name'] = array(
         '#markup' => $name,
       );
 
       // Select for merge options.
+
       $form['field_config'][$field]['merge_option'] = array(
         '#type' => 'select',
         '#options' => array(
@@ -117,7 +123,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Saves the row merge options.
    */
-  protected function views_merge_rows_options_form_submit(&$form, &$form_state) {
+  protected function views_merge_rows_options_form_submit($form, $form_state) {
     foreach ($form_state['values']['options'] as $option => $value) {
       $this->display->set_option($option, $value);
     }
@@ -126,7 +132,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide the form to set the rows merge options.
    */
-  public function options_form(&$form, &$form_state) {
+  public function options_form($form, $form_state) {
     switch ($form_state['section']) {
       case 'views_merge_rows':
         $this->views_merge_rows_options_form($form, $form_state);
@@ -137,7 +143,7 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Saves the row merge options.
    */
-  public function options_submit(&$form, &$form_state) {
+  public function options_submit($form, $form_state) {
     switch ($form_state['section']) {
       case 'views_merge_rows':
         $this->views_merge_rows_options_form_submit($form, $form_state);
@@ -149,13 +155,13 @@ class views_merge_rows_plugin_display_extender extends views_plugin_display_exte
   /**
    * Provide the default summary for options in the views UI.
    */
-  public function options_summary(&$categories, &$options) {
+  public function options_summary($categories, $options) {
     if ($this->display->display->handler->uses_fields()) {
       $configuration = $this->get_options();
       $options['views_merge_rows'] = array(
         'category' => 'other',
         'title' => t('Merge rows'),
-        'value' => $configuration['merge_rows'] ? t('Settings') : t('No'),
+        'value' => $configuration['merge_rows']?t('Settings') : t('No'),
         'desc' => t('Allow merging rows with the same content in the specified fields.'),
       );
     }
